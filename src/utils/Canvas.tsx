@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 faker.seed(1);
 
-const CANVAS_SIZE = {
+const SIZE = {
   WIDTH: 500,
   HEIGHT: 300,
 } as const;
@@ -28,6 +28,7 @@ export const Canvas = (props: {
     };
     constants: {
       colors: typeof COLORS;
+      size: typeof SIZE;
     };
   }) => void;
 }) => {
@@ -46,30 +47,32 @@ export const Canvas = (props: {
       return;
     }
 
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
     props.draw({
       canvas,
       context,
       random: {
         color: () => faker.helpers.arrayElement(Object.values(COLORS)),
         point: () => ({
-          x: faker.number.int({ min: 0, max: CANVAS_SIZE.WIDTH }),
-          y: faker.number.int({ min: 0, max: CANVAS_SIZE.HEIGHT }),
+          x: faker.number.int({ min: 0, max: SIZE.WIDTH }),
+          y: faker.number.int({ min: 0, max: SIZE.HEIGHT }),
         }),
       },
       constants: {
         colors: COLORS,
+        size: SIZE,
       },
     });
-  }, []);
-
+  }, [props.draw]);
   return (
     <canvas
-      width={CANVAS_SIZE.WIDTH}
-      height={CANVAS_SIZE.HEIGHT}
+      width={SIZE.WIDTH}
+      height={SIZE.HEIGHT}
       style={{
         border: "1px solid black",
-        width: CANVAS_SIZE.WIDTH,
-        height: CANVAS_SIZE.HEIGHT,
+        width: SIZE.WIDTH,
+        height: SIZE.HEIGHT,
       }}
       ref={ref}
     ></canvas>
