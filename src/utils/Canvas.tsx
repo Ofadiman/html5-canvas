@@ -26,6 +26,10 @@ export const Canvas = (props: {
       color: () => string;
       point: () => { x: number; y: number };
     };
+    center: {
+      x: number;
+      y: number;
+    };
     constants: {
       colors: typeof COLORS;
       size: typeof SIZE;
@@ -52,6 +56,10 @@ export const Canvas = (props: {
     props.draw({
       canvas,
       context,
+      center: {
+        x: SIZE.WIDTH / 2,
+        y: SIZE.HEIGHT / 2,
+      },
       random: {
         color: () => faker.helpers.arrayElement(Object.values(COLORS)),
         point: () => ({
