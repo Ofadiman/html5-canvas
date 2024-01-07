@@ -4,24 +4,24 @@ import { Canvas } from "./utils/Canvas";
 const LineCaps = () => {
   return (
     <Canvas
-      draw={({ faker, context }) => {
+      draw={({ random, context }) => {
         context.lineWidth = 10;
 
-        context.strokeStyle = faker.color.hsl({ format: "css" });
+        context.strokeStyle = random.color();
         context.lineCap = "butt";
         context.beginPath();
         context.moveTo(50, 50);
         context.lineTo(250, 50);
         context.stroke();
 
-        context.strokeStyle = faker.color.hsl({ format: "css" });
+        context.strokeStyle = random.color();
         context.lineCap = "round";
         context.beginPath();
         context.moveTo(50, 100);
         context.lineTo(250, 100);
         context.stroke();
 
-        context.strokeStyle = faker.color.hsl({ format: "css" });
+        context.strokeStyle = random.color();
         context.lineCap = "square";
         context.beginPath();
         context.moveTo(50, 150);

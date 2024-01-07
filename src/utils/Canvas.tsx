@@ -1,20 +1,34 @@
 import { ElementRef, useLayoutEffect, useRef } from "react";
-import { Faker, en } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 
-const instance = new Faker({ locale: [en] });
+faker.seed(1);
 
-instance.seed(1);
-
-export const CANVAS_SIZE = {
+const CANVAS_SIZE = {
   WIDTH: 500,
   HEIGHT: 300,
-};
+} as const;
+
+const COLORS = {
+  RED: "#ef4444",
+  ORANGE: "#f97316",
+  AMBER: "#f59e0b",
+  YELLOW: "#eab308",
+  LIME: "#84cc16",
+  GREEN: "#22c55e",
+  EMERALD: "#10b981",
+} as const;
 
 export const Canvas = (props: {
   draw: (args: {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
-    faker: Faker;
+    random: {
+      color: () => string;
+      point: () => { x: number; y: number };
+    };
+    constants: {
+      colors: typeof COLORS;
+    };
   }) => void;
 }) => {
   const ref = useRef<ElementRef<"canvas">>(null);
@@ -32,7 +46,20 @@ export const Canvas = (props: {
       return;
     }
 
-    props.draw({ canvas, context, faker: instance });
+    props.draw({
+      canvas,
+      context,
+      random: {
+        color: () => faker.helpers.arrayElement(Object.values(COLORS)),
+        point: () => ({
+          x: faker.number.int({ min: 0, max: CANVAS_SIZE.WIDTH }),
+          y: faker.number.int({ min: 0, max: CANVAS_SIZE.HEIGHT }),
+        }),
+      },
+      constants: {
+        colors: COLORS,
+      },
+    });
   }, []);
 
   return (
