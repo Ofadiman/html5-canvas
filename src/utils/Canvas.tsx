@@ -20,6 +20,7 @@ export const Canvas = (props: {
   draw: (args: {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
+    radian: (degrees: number) => number;
     random: {
       color: () => string;
       point: () => { x: number; y: number };
@@ -71,6 +72,7 @@ export const Canvas = (props: {
         colors: COLORS,
         size: SIZE,
       },
+      radian: (degress) => (Math.PI / 180) * degress,
     });
   }, [props.draw]);
   return (
