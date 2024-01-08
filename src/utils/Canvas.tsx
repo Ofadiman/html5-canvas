@@ -1,8 +1,6 @@
 import { ElementRef, useLayoutEffect, useRef } from "react";
 import { faker } from "@faker-js/faker";
 
-faker.seed(1);
-
 const SIZE = {
   WIDTH: 500,
   HEIGHT: 300,
@@ -39,6 +37,8 @@ export const Canvas = (props: {
   const ref = useRef<ElementRef<"canvas">>(null);
 
   useLayoutEffect(() => {
+    faker.seed(1);
+
     const canvas = ref.current;
     if (!canvas) {
       console.error(`canvas not available`);
