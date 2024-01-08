@@ -32,12 +32,11 @@ const BasicLines = () => {
 };
 
 const meta: Meta<typeof BasicLines> = {
+  title: "Paths/Basic lines",
   component: BasicLines,
 };
 
 export default meta;
 type Story = StoryObj<typeof BasicLines>;
 
-export const Primary: Story = {
-  render: () => <BasicLines />,
-};
+export const Primary: Story = {};

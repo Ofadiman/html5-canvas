@@ -27,6 +27,7 @@ const Shadows = () => {
 };
 
 const meta: Meta<typeof Shadows> = {
+  title: "Paths/Shadows",
   component: Shadows,
 };
 

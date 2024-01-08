@@ -30,6 +30,7 @@ const JoiningLines = (props: {
 };
 
 const meta: Meta<typeof JoiningLines> = {
+  title: "Paths/Joining lines",
   component: JoiningLines,
   argTypes: {
     lineJoin: {
@@ -44,6 +45,5 @@ export default meta;
 export const Primary: StoryObj<typeof JoiningLines> = {
   args: {
     lineJoin: "miter",
-    variant: "foo",
   },
 };

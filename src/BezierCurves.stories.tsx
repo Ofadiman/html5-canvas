@@ -25,6 +25,7 @@ const BezierCurves = () => {
 };
 
 const meta: Meta<typeof BezierCurves> = {
+  title: "Paths/Bezier curves",
   component: BezierCurves,
 };
 

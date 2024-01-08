@@ -22,6 +22,7 @@ const Circles = () => {
 };
 
 const meta: Meta<typeof Circles> = {
+  title: "Paths/Circles",
   component: Circles,
 };
 

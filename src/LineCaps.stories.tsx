@@ -33,12 +33,11 @@ const LineCaps = () => {
 };
 
 const meta: Meta<typeof LineCaps> = {
+  title: "Paths/Line caps",
   component: LineCaps,
 };
 
 export default meta;
 type Story = StoryObj<typeof LineCaps>;
 
-export const Primary: Story = {
-  render: () => <LineCaps />,
-};
+export const Primary: Story = {};

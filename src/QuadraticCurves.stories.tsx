@@ -29,6 +29,7 @@ const QuadraticCurves = () => {
 };
 
 const meta: Meta<typeof QuadraticCurves> = {
+  title: "Paths/Quadratic curves",
   component: QuadraticCurves,
 };
 
