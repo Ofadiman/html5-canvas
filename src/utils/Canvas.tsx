@@ -17,6 +17,10 @@ const COLORS = {
 } as const;
 
 export const Canvas = (props: {
+  size?: {
+    width: number;
+    height: number;
+  };
   draw: (args: {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
@@ -58,8 +62,8 @@ export const Canvas = (props: {
       canvas,
       context,
       center: {
-        x: SIZE.WIDTH / 2,
-        y: SIZE.HEIGHT / 2,
+        x: props.size?.width ? props.size.width / 2 : SIZE.WIDTH / 2,
+        y: props.size?.height ? props.size.height / 2 : SIZE.HEIGHT / 2,
       },
       random: {
         color: () => faker.helpers.arrayElement(Object.values(COLORS)),
@@ -77,12 +81,12 @@ export const Canvas = (props: {
   }, [props.draw]);
   return (
     <canvas
-      width={SIZE.WIDTH}
-      height={SIZE.HEIGHT}
+      width={props.size?.width ?? SIZE.WIDTH}
+      height={props.size?.height ?? SIZE.HEIGHT}
       style={{
         border: "1px solid black",
-        width: SIZE.WIDTH,
-        height: SIZE.HEIGHT,
+        width: props.size?.width ?? SIZE.WIDTH,
+        height: props.size?.height ?? SIZE.HEIGHT,
       }}
       ref={ref}
     ></canvas>
