@@ -41,7 +41,7 @@ const SaveAndRestoreState = () => {
 };
 
 const meta: Meta<typeof SaveAndRestoreState> = {
-  title: "State/SaveAndRestoreState",
+  title: "Utils/Save and restore canvas context state",
   component: SaveAndRestoreState,
 };
 
