@@ -28,6 +28,7 @@ export const Canvas = (props: {
     random: {
       color: () => string;
       point: () => { x: number; y: number };
+      int: (min: number, max: number) => number;
     };
     center: {
       x: number;
@@ -66,6 +67,7 @@ export const Canvas = (props: {
         y: props.size?.height ? props.size.height / 2 : SIZE.HEIGHT / 2,
       },
       random: {
+        int: (min, max) => faker.number.int({ min, max }),
         color: () => faker.helpers.arrayElement(Object.values(COLORS)),
         point: () => ({
           x: faker.number.int({ min: 0, max: SIZE.WIDTH }),
