@@ -6,9 +6,7 @@ const AnimatingShapes = () => {
   const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    console.log("useEffect");
     return () => {
-      console.log("useEffect callback");
       if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
       }
@@ -19,53 +17,44 @@ const AnimatingShapes = () => {
     <Canvas
       draw={(d) => {
         const RADIUS = 50;
+        const SPEED = 1;
 
         d.context.fillStyle = d.random.color();
         d.context.strokeStyle = d.random.color();
 
-        const p1 = {
-          x: d.center.x,
-          y: d.canvas.height - RADIUS,
+        const vector = {
+          x: d.random.int(1, 5),
+          y: d.random.int(1, 5),
         };
-
-        const p2 = {
-          x: d.center.x,
-          y: 0 + RADIUS,
-        };
-
-        const P1_TO_P2 = "p1 to p2";
-        const P2_TO_P1 = "p2 to p1";
-        let direction = P1_TO_P2;
-
-        let currentPosition = {
-          x: p1.x,
-          y: p1.y,
+        const position = {
+          x: RADIUS,
+          y: RADIUS,
         };
 
         const animate = () => {
           d.context.clearRect(0, 0, d.canvas.width, d.canvas.height);
 
-          if (direction === P1_TO_P2) {
-            currentPosition.y--;
-          } else {
-            currentPosition.y++;
-          }
+          position.x = position.x + vector.x * SPEED;
+          position.y = position.y + vector.y * SPEED;
 
           d.context.beginPath();
-          d.context.arc(
-            currentPosition.x,
-            currentPosition.y,
-            50,
-            0,
-            Math.PI * 2
-          );
+          d.context.arc(position.x, position.y, 50, 0, Math.PI * 2);
           d.context.fill();
 
-          if (currentPosition.y === p2.y) {
-            direction = P2_TO_P1;
+          if (position.x + RADIUS > d.canvas.width) {
+            vector.x = vector.x * -1;
           }
-          if (currentPosition.y === p1.y) {
-            direction = P1_TO_P2;
+
+          if (position.x - RADIUS < 0) {
+            vector.x = vector.x * -1;
+          }
+
+          if (position.y + RADIUS > d.canvas.height) {
+            vector.y = vector.y * -1;
+          }
+
+          if (position.y - RADIUS < 0) {
+            vector.y = vector.y * -1;
           }
 
           animationFrameRef.current = requestAnimationFrame(animate);
