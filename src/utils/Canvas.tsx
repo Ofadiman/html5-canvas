@@ -21,6 +21,7 @@ export const Canvas = (props: {
     width: number;
     height: number;
   };
+  animate?: boolean;
   draw: (args: {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
@@ -40,12 +41,13 @@ export const Canvas = (props: {
     };
   }) => void;
 }) => {
-  const ref = useRef<ElementRef<"canvas">>(null);
+  const canvasRef = useRef<ElementRef<"canvas">>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
   useLayoutEffect(() => {
     faker.seed(1);
 
-    const canvas = ref.current;
+    const canvas = canvasRef.current;
     if (!canvas) {
       console.error(`canvas not available`);
       return;
@@ -59,28 +61,65 @@ export const Canvas = (props: {
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    props.draw({
-      canvas,
-      context,
-      center: {
-        x: props.size?.width ? props.size.width / 2 : SIZE.WIDTH / 2,
-        y: props.size?.height ? props.size.height / 2 : SIZE.HEIGHT / 2,
-      },
-      random: {
-        int: (min, max) => faker.number.int({ min, max }),
-        color: () => faker.helpers.arrayElement(Object.values(COLORS)),
-        point: () => ({
-          x: faker.number.int({ min: 0, max: SIZE.WIDTH }),
-          y: faker.number.int({ min: 0, max: SIZE.HEIGHT }),
-        }),
-      },
-      constants: {
-        colors: COLORS,
-        size: SIZE,
-      },
-      radian: (degress) => (Math.PI / 180) * degress,
-    });
+    if (props.animate) {
+      const loop = () => {
+        props.draw({
+          canvas,
+          context,
+          center: {
+            x: props.size?.width ? props.size.width / 2 : SIZE.WIDTH / 2,
+            y: props.size?.height ? props.size.height / 2 : SIZE.HEIGHT / 2,
+          },
+          random: {
+            int: (min, max) => faker.number.int({ min, max }),
+            color: () => faker.helpers.arrayElement(Object.values(COLORS)),
+            point: () => ({
+              x: faker.number.int({ min: 0, max: SIZE.WIDTH }),
+              y: faker.number.int({ min: 0, max: SIZE.HEIGHT }),
+            }),
+          },
+          constants: {
+            colors: COLORS,
+            size: SIZE,
+          },
+          radian: (degress) => (Math.PI / 180) * degress,
+        });
+
+        animationFrameRef.current = requestAnimationFrame(loop);
+      };
+
+      loop();
+    } else {
+      props.draw({
+        canvas,
+        context,
+        center: {
+          x: props.size?.width ? props.size.width / 2 : SIZE.WIDTH / 2,
+          y: props.size?.height ? props.size.height / 2 : SIZE.HEIGHT / 2,
+        },
+        random: {
+          int: (min, max) => faker.number.int({ min, max }),
+          color: () => faker.helpers.arrayElement(Object.values(COLORS)),
+          point: () => ({
+            x: faker.number.int({ min: 0, max: SIZE.WIDTH }),
+            y: faker.number.int({ min: 0, max: SIZE.HEIGHT }),
+          }),
+        },
+        constants: {
+          colors: COLORS,
+          size: SIZE,
+        },
+        radian: (degress) => (Math.PI / 180) * degress,
+      });
+    }
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, [props.draw]);
+
   return (
     <canvas
       width={props.size?.width ?? SIZE.WIDTH}
@@ -90,7 +129,7 @@ export const Canvas = (props: {
         width: props.size?.width ?? SIZE.WIDTH,
         height: props.size?.height ?? SIZE.HEIGHT,
       }}
-      ref={ref}
+      ref={canvasRef}
     ></canvas>
   );
 };
