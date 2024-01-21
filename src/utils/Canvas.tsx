@@ -44,6 +44,10 @@ export const Canvas = (props: {
   animate?: boolean;
   draw: (args: DrawArgs) => void;
   once?: (args: DrawArgs) => void;
+  nativeCanvasProps?: React.DetailedHTMLProps<
+    React.CanvasHTMLAttributes<HTMLCanvasElement>,
+    HTMLCanvasElement
+  >;
 }) => {
   const canvasRef = useRef<ElementRef<"canvas">>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -115,6 +119,7 @@ export const Canvas = (props: {
 
   return (
     <canvas
+      {...props.nativeCanvasProps}
       width={props.size?.width ?? SIZE.WIDTH}
       height={props.size?.height ?? SIZE.HEIGHT}
       style={{
